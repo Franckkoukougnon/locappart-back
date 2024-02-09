@@ -21,6 +21,13 @@ public class Appartement  {
     private String name;
     private double currentPrice;
     private String description;
+    private String imageUrl;
+    private String imageUrl2;
+    private String imageUrl3;
+    private int nbSallesDeBain;
+
+    private int nbChambres;
+
 
 
 
