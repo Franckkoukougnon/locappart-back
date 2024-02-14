@@ -14,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Data
+@NoArgsConstructor
 @Entity
 public class Categorie {
     @Id
@@ -27,5 +28,7 @@ public class Categorie {
     private Set<Appartement> appartements;
 
 
-
+    public Categorie(Long id) {
+        this.id = id;
+    }
 }

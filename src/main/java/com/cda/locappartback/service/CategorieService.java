@@ -37,15 +37,12 @@ public class CategorieService {
         }
     }
 
-    public Categorie createOrGetCategorieByName(String categoryName) {
-        Categorie existingCategorie = categorieRepository.findCategoryByName(categoryName);
+    public Categorie createOrGetCategorieByName(Long CategoryId) {
+        Categorie existingCategorie = categorieRepository.findById(CategoryId).orElse(null);
         if (existingCategorie != null) {
             return existingCategorie;
-        } else {
-            Categorie newCategorie = new Categorie();
-            newCategorie.setName(categoryName);
-            return categorieRepository.save(newCategorie);
         }
+        return existingCategorie;
     }
 
     public void deleteCategorie(Long id) {

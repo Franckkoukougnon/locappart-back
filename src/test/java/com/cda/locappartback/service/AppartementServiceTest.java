@@ -39,16 +39,15 @@ class AppartementServiceTest {
         appartementResult.setId(1L);
         appartementResult.setCategorie(appartementCategorie);
 
-        // when, je dis ce que je veux que les mock fassent
-        when(categorieService.createOrGetCategorieByName("test")).thenReturn(appartementCategorie);
+        when(categorieService.createOrGetCategorieByName(1L)).thenReturn(appartementCategorie);
         when(appartementRepository.save(appartementTest)).thenReturn(appartementResult);
 
+        //When
+        Appartement appartementSaved = appartementService.saveAppartement(appartementTest);
+        //Then
+        assertEquals(appartementResult,appartementSaved);
 
-        Appartement resultat = appartementService.saveAppartement(appartementTest);
 
-
-        //then, je verifie que le resultat est bien celui que j'attend
-        assertEquals(appartementResult, resultat);
 
 
 
