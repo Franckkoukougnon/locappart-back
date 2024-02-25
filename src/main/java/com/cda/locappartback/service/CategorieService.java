@@ -37,13 +37,12 @@ public class CategorieService {
         }
     }
 
-    public Categorie createOrGetCategorieByName(Long CategoryId) {
-        Categorie existingCategorie = categorieRepository.findById(CategoryId).orElse(null);
-        if (existingCategorie != null) {
-            return existingCategorie;
-        }
-        return existingCategorie;
+
+    public Categorie createOrGetCategorieByName(String categoryName) {
+        Categorie existingCategorie = categorieRepository.findCategoryByName(categoryName);
+        return existingCategorie;  // Retournera null si la catégorie n'existe pas
     }
+
 
     public void deleteCategorie(Long id) {
         categorieRepository.deleteById(id);

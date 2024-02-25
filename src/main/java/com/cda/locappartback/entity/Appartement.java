@@ -25,15 +25,18 @@ public class Appartement  {
     private String imageUrl2;
     private String imageUrl3;
     private int nbSallesDeBain;
-
     private int nbChambres;
-
-
-
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "categorie_id", nullable = true)
     @JsonIgnoreProperties("appartements")
     private Categorie categorie;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "bailleur_id", nullable = true)
+    @JsonIgnoreProperties("appartements")
+    private Bailleur bailleur;
+
+
+
 
 }

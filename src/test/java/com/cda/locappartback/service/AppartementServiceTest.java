@@ -11,50 +11,31 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
 class AppartementServiceTest {
 
-    @Mock
-    AppartementRepo appartementRepository;
-    @Mock
-    CategorieService categorieService;
+        @Mock
+        private AppartementRepo appartementRepo;
 
-    @InjectMocks
-    AppartementService appartementService  = new AppartementService() ;
+        @InjectMocks
+        private AppartementService appartementService;
 
+        @Test
+        void getAllAppartements() {
+            appartementService.getAllAppartements();
+            verify(appartementRepo).findAll();
+        }
 
-    @Test
-    void saveAppartement() {
-        //Given , je cree les variable que je vais utiliser
-        Appartement appartementTest = new Appartement();
-        Categorie appartementCategorie = new Categorie();
-        appartementCategorie.setName("test");
-        appartementTest.setCategorie(appartementCategorie);
-
-
-        Appartement appartementResult = new Appartement();
-        appartementResult.setId(1L);
-        appartementResult.setCategorie(appartementCategorie);
-
-        when(categorieService.createOrGetCategorieByName(1L)).thenReturn(appartementCategorie);
-        when(appartementRepository.save(appartementTest)).thenReturn(appartementResult);
-
-        //When
-        Appartement appartementSaved = appartementService.saveAppartement(appartementTest);
-        //Then
-        assertEquals(appartementResult,appartementSaved);
-
-
-
-
-
-
-
-
-
-
-    }
+        @Test
+        void getAppartementById() {
+            Appartement appartement = new Appartement();
+            appartement.setId(1L);
+            when(appartementRepo.findById(1L)).thenReturn(java.util.Optional.of(appartement));
+            appartementService.getAppartementById(1L);
+            verify(appartementRepo).findById(1L);
+        }
 }

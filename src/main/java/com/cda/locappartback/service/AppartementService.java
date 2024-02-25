@@ -28,9 +28,9 @@ public class AppartementService {
 
     public Appartement saveAppartement(Appartement appartement) {
 
-        Long categorieId = appartement.getCategorie().getId();
+        String categorieName = appartement.getCategorie().getName();
 
-        Categorie categorie = categorieService.createOrGetCategorieByName(categorieId);
+        Categorie categorie = categorieService.createOrGetCategorieByName(categorieName);
 
         appartement.setCategorie(categorie);
 

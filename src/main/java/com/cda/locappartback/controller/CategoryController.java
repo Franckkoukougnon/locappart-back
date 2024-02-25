@@ -13,7 +13,8 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping(path = "/categorie")
+@RequestMapping(path = "/api/categorie")
+@CrossOrigin
 public class CategoryController {
 
 

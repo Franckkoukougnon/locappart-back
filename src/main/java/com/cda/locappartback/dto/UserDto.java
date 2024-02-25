@@ -1,18 +1,14 @@
 package com.cda.locappartback.dto;
 
 
-import com.cda.locappartback.enums.UserRole;
-import jakarta.persistence.Entity;
+import com.cda.locappartback.entity.Role;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 
 @Data
 public class UserDto {
     private Long id;
-    private String name;
-    private String email;
     private String password;
-    private UserRole userRole;
+    private String userName;
+    private String email;
+
 }

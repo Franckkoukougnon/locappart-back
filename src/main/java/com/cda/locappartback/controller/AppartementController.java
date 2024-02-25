@@ -1,7 +1,9 @@
 package com.cda.locappartback.controller;
 
 import com.cda.locappartback.entity.Appartement;
+import com.cda.locappartback.entity.Bailleur;
 import com.cda.locappartback.service.AppartementService;
+import com.cda.locappartback.service.BailleurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +14,16 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping(path = "/appart")
+@RequestMapping(path = "/api/appart")
+@CrossOrigin
 public class AppartementController {
 
 
     @Autowired
     private AppartementService appartementService;
+
+    @Autowired
+    private BailleurService bailleurService;
 
     @GetMapping
     public ResponseEntity<List<Appartement>> getAllAppartements() {
@@ -34,6 +40,20 @@ public class AppartementController {
 
     @PostMapping
     public ResponseEntity<Appartement> createAppartement(@RequestBody Appartement appartement) {
+        // Récupérer l'ID du bailleur sélectionné à partir de la requête
+        Long bailleurId = appartement.getBailleur().getId();
+
+
+        // Récupérer le bailleur à partir de la base de données
+        Bailleur bailleur = bailleurService.findById(bailleurId);
+
+        // Valider l'existence du bailleur
+        if (bailleur == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        appartement.setBailleur(bailleur);
+
         Appartement savedAppartement = appartementService.saveAppartement(appartement);
         return new ResponseEntity<>(savedAppartement, HttpStatus.CREATED);
     }
