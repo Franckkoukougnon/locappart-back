@@ -31,6 +31,8 @@ public class BailleurService {
         bailleurRepository.deleteById(id);
     }
 
+    
+
     public List<Appartement> findAppartementsByBailleurId(Long id) {
         Bailleur bailleur = bailleurRepository.findById(id).orElse(null);
         if (bailleur != null) {

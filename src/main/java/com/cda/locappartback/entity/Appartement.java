@@ -30,7 +30,6 @@ public class Appartement  {
     @JoinColumn(name = "categorie_id", nullable = true)
     @JsonIgnoreProperties("appartements")
     private Categorie categorie;
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "bailleur_id", nullable = true)
     @JsonIgnoreProperties("appartements")

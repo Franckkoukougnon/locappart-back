@@ -22,4 +22,6 @@ public class AdminUserController {
         return ResponseEntity.ok().body("This is ok, you can get in");
     }
 
+
+
 }
