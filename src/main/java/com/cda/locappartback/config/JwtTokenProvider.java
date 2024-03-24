@@ -24,7 +24,7 @@ public class JwtTokenProvider {
         this.jwtSecretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(String username, List<String> roles, Long userId) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
@@ -36,6 +36,7 @@ public class JwtTokenProvider {
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .claim("roles", roles)
+                .claim("userId", userId)
                 .signWith(jwtSecretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -66,5 +67,14 @@ public class JwtTokenProvider {
                 .getBody();
 
         return claims.getSubject();
+    }
+
+    public int getUserIdFromJWT(String jwt) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(jwtSecretKey)
+                .build()
+                .parseClaimsJws(jwt)
+                .getBody();
+        return Integer.parseInt(claims.getSubject());
     }
 }

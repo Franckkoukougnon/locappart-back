@@ -1,6 +1,7 @@
 package com.cda.locappartback.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,7 +36,10 @@ public class Appartement  {
     @JoinColumn(name = "bailleur_id", nullable = true)
     @JsonIgnoreProperties("appartements")
     private Bailleur bailleur;
-
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "whistlist_id", nullable = true)
+    @JsonIgnoreProperties("appartements")
+    private Whistlist whistlist;
 
 
 

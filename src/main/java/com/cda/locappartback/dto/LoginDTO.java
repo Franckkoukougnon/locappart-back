@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class LoginDTO {
+    private Long id;
     private String username;
     private String password;
 }

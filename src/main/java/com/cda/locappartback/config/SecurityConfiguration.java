@@ -22,6 +22,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+
     // Injection du cors allowed origins. Cela rend mon application plus flexible,
     // Car les cors ne seront pas les mêmes en fonction de l'environnement
     @Value("${cors.allowedOrigins}")
@@ -78,7 +79,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasRole("ADMIN") // Accès admin
                         .requestMatchers("/user/**").hasRole("USER") // Accès étudiant
                         // Accès public a certaines routes, notamment la page d'accueil, l'inscription et le login
-                        .requestMatchers("/api/**","/api/bailleur/**","/api/signup" ,"/api/categorie","/api/appart","/api/users/register", "/api/login","/api/role/get").permitAll()
+                        .requestMatchers("/api/**","/api/bailleur/**","/api/signup" ,"/api/categorie","/api/appart","/api/users/register","/api/user/**", "/api/login","/api/role/get").permitAll()
                         .anyRequest().authenticated() // Toutes les autres requêtes nécessitent une authentification
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Ajout du filtre JWT, permettant de vérifier le token et le rôle de l'utilisateur

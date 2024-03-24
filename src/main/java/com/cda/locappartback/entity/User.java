@@ -33,5 +33,10 @@ public class User {
     private LocalDateTime tokenExpiration;
 
     private String claimToken;
+    @OneToOne
+    @JoinColumn(name = "wishlist_id")
+    private Whistlist wishlist;
+
+
 
 }

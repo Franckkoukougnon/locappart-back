@@ -38,18 +38,21 @@ public class LoginController {
         try {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
             Authentication authentication = authenticationManager.authenticate(authToken);
+            //Authentication authentication_info = SecurityContextHolder.getContext().getAuthentication();
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+
             // Gather the infos on user
+            Long userId = userService.getUserIdFromAuthentication(authentication);
             String userName = loginDto.getUsername();
             User user = userService.getUser(loginDto.getUsername());
 
             List<String> roles = userService.getUserRoles(user);
 
             // Create security token for user
-            String token = jwtTokenProvider.generateToken(userName, roles);
+            String token = jwtTokenProvider.generateToken( userName, roles, userId );
 
-            return ResponseEntity.ok(new AuthResponseDTO(token, userName));
+            return ResponseEntity.ok(new AuthResponseDTO(token, userName, userId));
         } catch (AuthenticationException e) {
 
 
