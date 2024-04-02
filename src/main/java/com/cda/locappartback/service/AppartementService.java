@@ -43,4 +43,8 @@ public class AppartementService {
     public void deleteAppartement(Long id) {
         appartementRepository.deleteById(id);
     }
+
+    public List<Appartement> getAppartementsByCategories(List<Long> categories) {
+        return appartementRepository.findByCategorieIdIn(categories);
+    }
 }

@@ -6,7 +6,9 @@ import com.cda.locappartback.dto.UserDto;
 import com.cda.locappartback.entity.User;
 import com.cda.locappartback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +26,12 @@ public class RegisterController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterDto registerDto) {
-        userService.registerNewUserAccount(registerDto);
-        return ResponseEntity.ok("User registered successfully");
+        try {
+            userService.registerNewUserAccount(registerDto);
+            return ResponseEntity.ok("User registered successfully");
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/listuser")

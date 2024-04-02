@@ -5,13 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @Data
+@NoArgsConstructor
 @Entity
 public class Bailleur {
     @Id
@@ -22,10 +25,12 @@ public class Bailleur {
     private String prenom;
     private String email;
     private String telephone;
+
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "bailleur", cascade = CascadeType.ALL)
     @JsonIgnore()
     private List<Appartement> appartements;
 
-
-
+    public Bailleur(Long id) {
+        this.id = id;
+    }
 }

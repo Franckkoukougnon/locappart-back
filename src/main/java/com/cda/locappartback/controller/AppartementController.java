@@ -2,8 +2,10 @@ package com.cda.locappartback.controller;
 
 import com.cda.locappartback.entity.Appartement;
 import com.cda.locappartback.entity.Bailleur;
+import com.cda.locappartback.entity.Categorie;
 import com.cda.locappartback.service.AppartementService;
 import com.cda.locappartback.service.BailleurService;
+import com.cda.locappartback.service.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,11 @@ public class AppartementController {
     @Autowired
     private BailleurService bailleurService;
 
+    @Autowired
+    private CategorieService categorieService;
+
+
+
     @GetMapping
     public ResponseEntity<List<Appartement>> getAllAppartements() {
         List<Appartement> appartements = appartementService.getAllAppartements();
@@ -38,25 +45,41 @@ public class AppartementController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/appartements")
+    public List<Appartement> getAppartementsByCategories(@RequestParam List<Long> categories) {
+        return appartementService.getAppartementsByCategories(categories);
+    }
+
+
+
     @PostMapping
-    public ResponseEntity<Appartement> createAppartement(@RequestBody Appartement appartement) {
-        // Récupérer l'ID du bailleur sélectionné à partir de la requête
-        Long bailleurId = appartement.getBailleur().getId();
+   public Appartement addAppartement(@RequestBody Appartement appartement){
 
+        // je recupere les Id
+        long categoryId = appartement.getCategorie().getId();
+        long bailleurId = appartement.getBailleur().getId();
 
-        // Récupérer le bailleur à partir de la base de données
+        // je verifie si les categorie et ls bailleur existent
+        Optional<Categorie> category = categorieService.getCategorieById(categoryId);
         Bailleur bailleur = bailleurService.findById(bailleurId);
 
-        // Valider l'existence du bailleur
-        if (bailleur == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(category.isEmpty()) {
+            throw new IllegalArgumentException("La catégorie spécifiée n'existe pas.");
+
         }
 
+        if(bailleur == null){
+            throw new IllegalArgumentException("Le bailleur spécifié n'existe pas.");
+        }
+
+        // Ajouter le bailleur et la catégorie à l'appartement
+        appartement.setCategorie(category.get());
         appartement.setBailleur(bailleur);
 
-        Appartement savedAppartement = appartementService.saveAppartement(appartement);
-        return new ResponseEntity<>(savedAppartement, HttpStatus.CREATED);
+        return appartementService.saveAppartement(appartement);
+
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Appartement> updateAppartement(@PathVariable Long id, @RequestBody Appartement updatedAppartement) {
