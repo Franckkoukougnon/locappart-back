@@ -34,4 +34,7 @@ public class User {
 
     private String claimToken;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Whistlist whistlist;
+
 }

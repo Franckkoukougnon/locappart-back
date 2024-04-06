@@ -19,21 +19,35 @@ public class Appartement  {
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
-    private double currentPrice;
+    private double loyer;
     private String description;
     private String imageUrl;
     private String imageUrl2;
     private String imageUrl3;
     private int nbSallesDeBain;
     private int nbChambres;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "categorie_id", nullable = true)
     @JsonIgnoreProperties("appartements")
     private Categorie categorie;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "bailleur_id", nullable = true)
     @JsonIgnoreProperties("appartements")
     private Bailleur bailleur;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "ville_id", nullable = true)
+    @JsonIgnoreProperties("appartements")
+    private Ville ville;
+
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "whistlist_id", nullable = true)
+    @JsonIgnoreProperties("appartements")
+    private Whistlist whistlist;
+
 
 
 
