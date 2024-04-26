@@ -3,9 +3,11 @@ package com.cda.locappartback.controller;
 import com.cda.locappartback.entity.Appartement;
 import com.cda.locappartback.entity.Bailleur;
 import com.cda.locappartback.entity.Categorie;
+import com.cda.locappartback.entity.Ville;
 import com.cda.locappartback.service.AppartementService;
 import com.cda.locappartback.service.BailleurService;
 import com.cda.locappartback.service.CategorieService;
+import com.cda.locappartback.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,10 @@ public class AppartementController {
     @Autowired
     private CategorieService categorieService;
 
+    @Autowired
+    private VilleService villeService;
+
+
 
 
     @GetMapping
@@ -53,28 +59,36 @@ public class AppartementController {
 
 
     @PostMapping
-   public Appartement addAppartement(@RequestBody Appartement appartement){
+    public Appartement addAppartement(@RequestBody Appartement appartement){
 
         // je recupere les Id
         long categoryId = appartement.getCategorie().getId();
         long bailleurId = appartement.getBailleur().getId();
+        long villeId = appartement.getVille().getId();
 
         // je verifie si les categorie et ls bailleur existent
         Optional<Categorie> category = categorieService.getCategorieById(categoryId);
         Bailleur bailleur = bailleurService.findById(bailleurId);
+        Ville ville = villeService.findVilleById(villeId);
+
+
 
         if(category.isEmpty()) {
             throw new IllegalArgumentException("La catégorie spécifiée n'existe pas.");
-
         }
 
         if(bailleur == null){
             throw new IllegalArgumentException("Le bailleur spécifié n'existe pas.");
         }
 
+        if(ville == null){
+            throw new IllegalArgumentException("La ville spécifiée n'existe pas.");
+        }
+
         // Ajouter le bailleur et la catégorie à l'appartement
         appartement.setCategorie(category.get());
         appartement.setBailleur(bailleur);
+        appartement.setVille(ville);
 
         return appartementService.saveAppartement(appartement);
 

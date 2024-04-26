@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-
 @Getter
 @Setter
 @Data
+@NoArgsConstructor
 @Entity
 public class Ville {
     @Id
@@ -24,12 +25,9 @@ public class Ville {
     @JsonIgnore()
     private List<Appartement> appartements;
 
-    /**
-     *
-     *  public Ville(Long id) {
-     *         this.id = id;
-     *     }
-     */
+    public Ville(Long id) {
+        this.id = id;
+    }
 
 
 }

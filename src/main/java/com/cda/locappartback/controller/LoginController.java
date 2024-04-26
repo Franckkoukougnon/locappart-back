@@ -43,11 +43,12 @@ public class LoginController {
             // Gather the infos on user
             String userName = loginDto.getUsername();
             User user = userService.getUser(loginDto.getUsername());
+            Long userId = user.getId(); // Récupérer l'ID de l'utilisateur
 
             List<String> roles = userService.getUserRoles(user);
 
             // Create security token for user
-            String token = jwtTokenProvider.generateToken(userName, roles);
+            String token = jwtTokenProvider.generateToken(userName, userId, roles);
 
             return ResponseEntity.ok(new AuthResponseDTO(token, userName));
         } catch (AuthenticationException e) {

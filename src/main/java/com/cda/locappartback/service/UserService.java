@@ -3,7 +3,7 @@ package com.cda.locappartback.service;
 
 import com.cda.locappartback.dto.AuthResponseDTO;
 import com.cda.locappartback.dto.RegisterDto;
-import com.cda.locappartback.dto.UserDto;
+import com.cda.locappartback.entity.Appartement;
 import com.cda.locappartback.entity.Role;
 import com.cda.locappartback.entity.User;
 import com.cda.locappartback.repository.RoleRepository;
@@ -28,6 +28,9 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private AppartementService appartementService;
 
 
 
@@ -102,8 +105,21 @@ public class UserService {
 
     }
 
+    public void addFavoris(Long userId, Long idAppartement) {
+        User user = findUserById(userId);
+        Appartement appartement = appartementService.getAppartementById(idAppartement).orElseThrow(() -> new IllegalArgumentException("L'appartement spécifié n'existe pas."));
 
+        user.getFavoris().add(appartement);
+        userRepository.save(user);
+    }
 
+    public void deleteFavoris(Long userId, Long idAppartement) {
+        User user = findUserById(userId);
+        Appartement appartement = appartementService.getAppartementById(idAppartement).orElseThrow(() -> new IllegalArgumentException("L'appartement spécifié n'existe pas."));
+
+        user.getFavoris().remove(appartement);
+        userRepository.save(user);
+    }
 }
 
 

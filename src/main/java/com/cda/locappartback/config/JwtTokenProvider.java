@@ -24,7 +24,7 @@ public class JwtTokenProvider {
         this.jwtSecretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(String username,Long userId, List<String> roles) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
@@ -32,10 +32,12 @@ public class JwtTokenProvider {
         Date exp = new Date(expMillis);
 
         return Jwts.builder()
+
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .claim("roles", roles)
+                .claim("userId", userId)
                 .signWith(jwtSecretKey, SignatureAlgorithm.HS512)
                 .compact();
     }

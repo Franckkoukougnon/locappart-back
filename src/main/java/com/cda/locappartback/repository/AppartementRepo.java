@@ -8,4 +8,6 @@ import java.util.List;
 public interface AppartementRepo extends JpaRepository<Appartement, Long>{
 
     List<Appartement> findByCategorieIdIn(List<Long> categories);
+
+    List<Appartement> findByVilleId(Long id);
 }

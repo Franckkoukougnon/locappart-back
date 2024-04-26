@@ -28,12 +28,6 @@ public class AppartementService {
 
     public Appartement saveAppartement(Appartement appartement) {
 
-        String categorieName = appartement.getCategorie().getName();
-
-        Categorie categorie = categorieService.createOrGetCategorieByName(categorieName);
-
-        appartement.setCategorie(categorie);
-
         return appartementRepository.save(appartement);
     }
 
@@ -46,5 +40,9 @@ public class AppartementService {
 
     public List<Appartement> getAppartementsByCategories(List<Long> categories) {
         return appartementRepository.findByCategorieIdIn(categories);
+    }
+
+    public List<Appartement> getAppartementsByVille(Long id) {
+        return appartementRepository.findByVilleId(id);
     }
 }

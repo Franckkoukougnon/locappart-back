@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -43,13 +47,11 @@ public class Appartement  {
     private Ville ville;
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "whistlist_id", nullable = true)
-    @JsonIgnoreProperties("appartements")
-    private Whistlist whistlist;
 
-
-
+    // Liste des utilisateurs ayant mis cet appartement en favori
+    @ManyToMany(mappedBy = "favoris")
+    @JsonIgnoreProperties("favoris")
+    private Set<User> users = new HashSet<>();
 
 
 }

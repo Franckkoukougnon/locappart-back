@@ -2,11 +2,15 @@ package com.cda.locappartback.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -34,7 +38,13 @@ public class User {
 
     private String claimToken;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Whistlist whistlist;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_appartement_favorite",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "appartement_id")
+    )
+    private Set<Appartement> favoris = new HashSet<>();
 
 }
