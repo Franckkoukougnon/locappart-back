@@ -11,8 +11,6 @@ services:
       MARIADB_ROOT_PASSWORD: example
     ports:
       - 3309:3306
-
-
   adminer:
     container_name: admin_fil_rouge
     image: adminer

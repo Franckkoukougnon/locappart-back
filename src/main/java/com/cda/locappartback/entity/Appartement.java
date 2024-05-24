@@ -46,12 +46,7 @@ public class Appartement  {
     @JsonIgnoreProperties("appartements")
     private Ville ville;
 
-
-
-    // Liste des utilisateurs ayant mis cet appartement en favori
     @ManyToMany(mappedBy = "favoris")
     @JsonIgnoreProperties("favoris")
     private Set<User> users = new HashSet<>();
-
-
 }
