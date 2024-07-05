@@ -29,14 +29,7 @@ public class CategorieService {
     }
 
     public Categorie saveCategorie(Categorie categorie) {
-        String categorieName = categorie.getName();
-        Categorie existingCategorie = categorieRepository.findCategoryByName(categorieName);
-
-        if(existingCategorie != null){
-            return existingCategorie;
-        } else {
-            return categorieRepository.save(categorie);
-        }
+           return categorieRepository.save(categorie);
     }
 
 

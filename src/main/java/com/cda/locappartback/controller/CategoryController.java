@@ -1,6 +1,7 @@
 package com.cda.locappartback.controller;
 
 import com.cda.locappartback.entity.Categorie;
+import com.cda.locappartback.entity.Ville;
 import com.cda.locappartback.service.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping(path = "/api/categorie")
+@RequestMapping(path = "/api/categories")
 @CrossOrigin
 public class CategoryController {
 
@@ -34,10 +35,11 @@ public class CategoryController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
-    public ResponseEntity<Categorie> createCategorie(@RequestBody Categorie categorie) {
-        Categorie savedCategorie = categorieService.saveCategorie(categorie);
-        return new ResponseEntity<>(savedCategorie, HttpStatus.CREATED);
+
+
+    @PostMapping()
+    public Categorie createCategorie(@RequestBody Categorie categorie){
+        return categorieService.saveCategorie(categorie);
     }
 
     @PutMapping("/{id}")
